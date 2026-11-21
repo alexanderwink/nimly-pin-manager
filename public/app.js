@@ -3,8 +3,10 @@ const revealed = new Set();
 let users = [];
 let status = null;
 
+// API paths are resolved relative to the page, so the app also works under a
+// reverse-proxy sub-path such as https://host/nimly/.
 async function api(method, url, body) {
-  const res = await fetch(url, {
+  const res = await fetch(url.replace(/^\//, ''), {
     method,
     headers: body ? { 'content-type': 'application/json' } : {},
     body: body ? JSON.stringify(body) : undefined,

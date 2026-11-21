@@ -40,6 +40,15 @@ Open `http://<server>:3000`. To update, pull or copy the new code and run
   authentication in front of it.
 - `data/users.json` contains PINs in plain text.
 
+**Reverse proxy on a sub-path** (e.g. `https://host/nimly/`): all URLs in the page are
+relative, so it works as long as the proxy strips the prefix before passing requests on.
+nginx example:
+
+```nginx
+location = /nimly { return 301 /nimly/; }
+location /nimly/ { proxy_pass http://127.0.0.1:3000/; }   # trailing slash strips /nimly
+```
+
 ## Run locally (development)
 
 ```sh
