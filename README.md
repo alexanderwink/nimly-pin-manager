@@ -4,6 +4,12 @@ Small personal web app for managing PIN users on a Nimly Touch Pro lock through
 [zigbee2mqtt](https://www.zigbee2mqtt.io/devices/Nimly.html). It supports permanent codes,
 weekly schedules, date-limited codes and single-use codes, and works on desktop and mobile.
 
+<p>
+  <img src="docs/screenshots/screenshot-desktop.png" alt="Desktop view: lock status and users with always, weekly, date-limited and single-use access" width="560">
+  &nbsp;
+  <img src="docs/screenshots/screenshot-mobile.png" alt="Mobile view in dark mode" width="220">
+</p>
+
 ## Deploy with Docker Compose
 
 On the server, in a folder containing this project:
