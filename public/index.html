@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>Nimly PIN Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="brand" href="./" aria-label="Nimly PIN Manager">
+    <picture>
+      <source srcset="nimly-logo-white.svg" media="(prefers-color-scheme: dark)">
+      <img src="nimly-logo.svg" alt="Nimly" width="68" height="28">
+    </picture>
+  </a>
+  <header class="lock-card">
+    <div class="lock-head">
+      <div>
+        <h1 id="lock-name">Lock</h1>
+        <div class="meta">
+          <span id="mqtt" class="dot" title="MQTT"></span>
+          <span id="mqtt-text">Connecting…</span>
+        </div>
+      </div>
+      <span id="lock-state" class="badge">—</span>
+    </div>
+    <dl class="facts">
+      <div><dt>Battery</dt><dd id="battery">—</dd></div>
+      <div><dt>Last unlock</dt><dd id="last-unlock">—</dd></div>
+      <div><dt>Slots used</dt><dd id="slots">—</dd></div>
+    </dl>
+    <div class="lock-actions">
+      <button id="btn-lock" class="btn">Lock</button>
+      <button id="btn-unlock" class="btn">Unlock</button>
+    </div>
+  </header>
+
+  <div id="overdue-banner" class="banner" role="alert" hidden></div>
+
+  <main>
+    <section class="panel">
+      <h2>Add user</h2>
+      <form id="add-form" class="add-form" autocomplete="off">
+        <label>Name <input name="name" required maxlength="40" autocomplete="off"></label>
+        <label>PIN <input name="pin" required inputmode="numeric" pattern="[0-9]*" autocomplete="off"></label>
+        <div id="add-access" class="access-host"></div>
+        <button class="btn primary add-btn" type="submit">Add</button>
+      </form>
+      <p id="add-error" class="error" hidden></p>
+    </section>
+
+    <section class="panel">
+      <h2>Users</h2>
+      <p id="empty" class="muted" hidden>No users yet.</p>
+      <ul id="users" class="users"></ul>
+    </section>
+  </main>
+
+  <dialog id="dlg">
+    <form id="dlg-form">
+      <h3 id="dlg-title"></h3>
+      <input id="dlg-input" autocomplete="off">
+      <p id="dlg-error" class="error" hidden></p>
+      <div class="dlg-actions">
+        <button class="btn" type="button" id="dlg-cancel">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="access-dlg">
+    <form id="access-form">
+      <h3 id="access-title"></h3>
+      <div id="access-host" class="access-host"></div>
+      <p id="access-error" class="error" hidden></p>
+      <div class="dlg-actions">
+        <button class="btn" type="button" id="access-cancel">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

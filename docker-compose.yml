@@ -1,0 +1,14 @@
+services:
+  nimly:
+    build: .
+    container_name: nimly-pin-manager
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Schedules use local wall-clock time. Without TZ the container runs on UTC.
+      TZ: Europe/Stockholm
+    volumes:
+      # Host folder must be writable by uid 1000: sudo chown 1000:1000 ./data
+      - ./data:/app/data
+    ports:
+      - "3000:3000"

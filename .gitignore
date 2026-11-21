@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Secrets: MQTT credentials
+.env
+
+# App data: users and PINs in plain text
+data/
+
+# OS / editor / logs
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Agent scratch
+.superpowers/
