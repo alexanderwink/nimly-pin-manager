@@ -12,7 +12,6 @@ export function httpError(status, message) {
 export function validatePin(pin, { minLen = 4, maxLen = 8 } = {}, users = [], excludeId) {
   if (typeof pin !== 'string' || !/^\d+$/.test(pin)) return 'PIN must contain digits only';
   if (pin.length < minLen || pin.length > maxLen) return `PIN must be ${minLen}–${maxLen} digits`;
-  if (pin.startsWith('0')) return 'PIN cannot start with 0 (the lock receives it as a number)';
   if (users.some((u) => u.id !== excludeId && u.pin === pin)) return 'Another user already has this PIN';
   return null;
 }

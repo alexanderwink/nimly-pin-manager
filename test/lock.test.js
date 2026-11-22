@@ -39,7 +39,7 @@ test('syncUser publishes exact payload to zigbee2mqtt/door/set', () => {
   lock.syncUser(u);
   assert.deepEqual(mqtt.published.at(-1), {
     topic: 'zigbee2mqtt/door/set',
-    payload: { pin_code: { user: 3, user_type: 'unrestricted', user_enabled: true, pin_code: 1234 } },
+    payload: { pin_code: { user: 3, user_type: 'unrestricted', user_enabled: true, pin_code: '1234' } },
   });
   assert.equal(store.get(u.id).syncStatus, 'pending');
   lock.stop();
@@ -219,7 +219,7 @@ test('disabling a user clears the code on the lock but keeps it in the app', () 
   assert.equal(store.get(u.id).syncStatus, 'sent');
   // re-enabling sends the stored PIN again
   lock.syncUser(store.update(u.id, { enabled: true }));
-  assert.equal(mqtt.published.at(-1).payload.pin_code.pin_code, 1234);
+  assert.equal(mqtt.published.at(-1).payload.pin_code.pin_code, '1234');
 });
 
 test('keypad unlock by a sent user marks it verified', () => {
@@ -264,7 +264,7 @@ test('apply off clears the slot and records applied off', () => {
   send('zigbee2mqtt/door', { state: 'LOCK' });
   assert.equal(store.get(u.id).applied, 'off');
   lock.apply(store.get(u.id), 'on');
-  assert.equal(mqtt.published.at(-1).payload.pin_code.pin_code, 1234);
+  assert.equal(mqtt.published.at(-1).payload.pin_code.pin_code, '1234');
   send('zigbee2mqtt/door', { state: 'LOCK' });
   assert.equal(store.get(u.id).applied, 'on');
 });
@@ -366,4 +366,12 @@ test('onSettled is called after each command resolves', () => {
 test('malformed message does not crash', () => {
   const { mqtt } = setup();
   mqtt.emit('message', 'zigbee2mqtt/door', Buffer.from('not json'));
+});
+
+test('PIN with a leading zero is sent as a string', () => {
+  const { mqtt, store, lock } = setup();
+  const u = store.add({ name: 'A', pin: '0123' }, opts);
+  lock.syncUser(u);
+  assert.equal(mqtt.published.at(-1).payload.pin_code.pin_code, '0123');
+  lock.stop();
 });

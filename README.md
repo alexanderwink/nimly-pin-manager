@@ -107,7 +107,7 @@ the lock, then **Retry**.
 - **The app is the source of truth.** Users, slots, PINs and rules live in `data/users.json`.
   The lock can't report its codes back.
 - Each user gets the lowest free slot from 003–049, skipping any `RESERVED_SLOTS`. Commands go to
-  `<base>/<lock>/set` as `{"pin_code":{"user":<slot>,"user_type":"unrestricted","user_enabled":<bool>,"pin_code":<number|null>}}`,
+  `<base>/<lock>/set` as `{"pin_code":{"user":<slot>,"user_type":"unrestricted","user_enabled":<bool>,"pin_code":"<digits>"|null}}`,
   one at a time.
 - **Sending**: waiting for the lock.
 - **Sent** / **Off on lock**: the lock published state afterwards and zigbee2mqtt reported no

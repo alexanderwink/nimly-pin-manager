@@ -44,10 +44,11 @@ test('reserved slots are skipped and lastSlot is respected', () => {
 test('validatePin rules', () => {
   const users = [{ id: 'x', pin: '9999' }];
   const l = { minLen: 4, maxLen: 8 };
-  for (const bad of ['12a4', '123', '123456789', '0123', '9999', '', undefined]) {
+  for (const bad of ['12a4', '123', '123456789', '9999', '', undefined]) {
     assert.ok(validatePin(bad, l, users), `expected error for ${bad}`);
   }
   assert.equal(validatePin('1234', l, users), null);
+  assert.equal(validatePin('0123', l, users), null); // leading zero is kept: the PIN is sent as a string
   assert.equal(validatePin('9999', l, users, 'x'), null);
 });
 

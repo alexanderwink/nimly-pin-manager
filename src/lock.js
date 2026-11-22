@@ -177,7 +177,7 @@ export function createLock({ mqtt, baseTopic, lockName, store, timeoutMs = 15000
     apply(user, desired) {
       if (desired === 'on') {
         log(`set slot ${user.slot} (${user.name})`);
-        send(user, 'set', 'on', pinPayload(user.slot, true, Number(user.pin)));
+        send(user, 'set', 'on', pinPayload(user.slot, true, user.pin));
       } else {
         log(`clear slot ${user.slot} (${user.name})`);
         send(user, 'set', 'off', pinPayload(user.slot, false, null));
