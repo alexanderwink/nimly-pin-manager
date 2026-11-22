@@ -355,6 +355,7 @@ $('add-form').addEventListener('submit', async (e) => {
     await api('POST', '/api/users', { name: form.elements.name.value, pin: form.elements.pin.value.trim(), access });
     form.reset();
     addAccess = accessEditor($('add-access'), null);
+    $('add-panel').open = false;
     toast(access ? 'User added with limited access' : 'User added, sending to lock…');
   } catch (ex) {
     err.textContent = ex.message;
@@ -363,6 +364,9 @@ $('add-form').addEventListener('submit', async (e) => {
   await refresh();
 });
 
+$('add-panel').addEventListener('toggle', (e) => {
+  if (e.target.open) e.target.querySelector('input[name="name"]').focus();
+});
 $('btn-lock').addEventListener('click', () => act(() => api('POST', '/api/lock', { state: 'LOCK' }), 'Locking…'));
 $('btn-unlock').addEventListener('click', () => act(() => api('POST', '/api/lock', { state: 'UNLOCK' }), 'Unlocking…'));
 
